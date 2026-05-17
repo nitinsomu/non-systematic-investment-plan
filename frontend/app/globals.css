@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+:root {
+  --background: #080c14;
+  --foreground: #e2e8f0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+* {
+  letter-spacing: 0;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f1623;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e2d40;
+  border-radius: 3px;
+}
+
+.num,
+td,
+dd,
+input {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.nsip-card {
+  border: 1px solid #1e293b;
+  border-radius: 0.5rem;
+  background: #0b1120;
+}
+
+.nsip-panel {
+  border: 1px solid #1e293b;
+  border-radius: 0.375rem;
+  background: #080c14;
+}
+
+.nsip-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.nsip-input {
+  height: 2.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid #334155;
+  background: #080c14;
+  padding: 0 0.625rem;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  outline: none;
+  color-scheme: dark;
+}
+
+.nsip-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.nsip-input:disabled {
+  background: #0f172a;
+  color: #64748b;
+}
+
+.nsip-button {
+  border-radius: 0.375rem;
+  background: #2563eb;
+  color: white;
+  transition: background 160ms ease, opacity 160ms ease;
+}
+
+.nsip-button:hover {
+  background: #3b82f6;
+}
+
+.nsip-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
