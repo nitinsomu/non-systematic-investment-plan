@@ -15,10 +15,10 @@ export function PortfolioRecommendations({ result, isLoading, onRun }: Portfolio
   const [monthlyBudget, setMonthlyBudget] = useState(50000);
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 p-3">
+    <section className="nsip-card">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 p-3">
         <div>
-          <h2 className="text-sm font-semibold text-slate-950">Portfolio Recommendations</h2>
+          <h2 className="text-sm font-semibold text-slate-100">Portfolio Recommendations</h2>
           <p className="text-xs text-slate-500">Allocate a monthly budget across actionable watchlist signals.</p>
         </div>
         <div className="flex gap-2">
@@ -27,13 +27,13 @@ export function PortfolioRecommendations({ result, isLoading, onRun }: Portfolio
             min="1"
             value={monthlyBudget}
             onChange={(event) => setMonthlyBudget(Number(event.target.value))}
-            className="h-8 w-32 rounded-md border border-slate-300 px-2 text-sm"
+            className="nsip-input h-8 w-32"
           />
           <button
             type="button"
             onClick={() => onRun(monthlyBudget)}
             disabled={isLoading}
-            className="h-8 rounded-md bg-slate-950 px-3 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
+            className="nsip-button h-8 px-3 text-xs font-semibold"
           >
             {isLoading ? "Allocating" : "Recommend"}
           </button>
@@ -51,7 +51,7 @@ export function PortfolioRecommendations({ result, isLoading, onRun }: Portfolio
           ) : (
             <div className="overflow-auto">
               <table className="w-full min-w-[720px] text-left text-sm">
-                <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                <thead className="bg-[#080c14] text-xs uppercase tracking-wide text-slate-500">
                   <tr>
                     <th className="px-3 py-2">Asset</th>
                     <th className="px-3 py-2">Score</th>
@@ -61,15 +61,15 @@ export function PortfolioRecommendations({ result, isLoading, onRun }: Portfolio
                     <th className="px-3 py-2">Reason</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-800 text-slate-300">
                   {result.recommendations.map((recommendation) => (
                     <tr key={recommendation.watchlistItem.id}>
-                      <td className="px-3 py-2 font-medium text-slate-950">{recommendation.watchlistItem.name}</td>
+                      <td className="px-3 py-2 font-medium text-slate-100">{recommendation.watchlistItem.name}</td>
                       <td className="px-3 py-2">{recommendation.opportunity.score}</td>
                       <td className="px-3 py-2">{recommendation.opportunity.suggestedAction}</td>
                       <td className="px-3 py-2">{formatMoney(recommendation.recommendedAmount, recommendation.watchlistItem.currency)}</td>
                       <td className="px-3 py-2">{recommendation.allocationPercent}%</td>
-                      <td className="px-3 py-2 text-slate-600">{recommendation.reason}</td>
+                      <td className="px-3 py-2 text-slate-400">{recommendation.reason}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -86,8 +86,8 @@ export function PortfolioRecommendations({ result, isLoading, onRun }: Portfolio
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md border border-slate-200 p-2.5">
-      <div className="text-sm font-semibold text-slate-950">{value}</div>
+    <div className="nsip-panel p-2.5">
+      <div className="text-sm font-semibold text-slate-100">{value}</div>
       <div className="text-xs text-slate-500">{label}</div>
     </div>
   );

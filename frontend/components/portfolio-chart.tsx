@@ -23,16 +23,19 @@ export function PortfolioChart({ result }: PortfolioChartProps) {
     result.strategies.map((strategy) => [strategy.chartKey, strategy.label]),
   );
   labelMap.cashReserveValue = "Cash Reserve";
+  labelMap.regularSipInvested = "SIP Invested";
+  labelMap.buyTheDipInvested = "Dip Invested";
+  const chartData = withInvestedReferenceLines(result);
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <section className="nsip-card p-5">
       <div className="mb-4">
-        <h2 className="text-sm font-semibold text-slate-950">Portfolio Value</h2>
-        <p className="text-xs text-slate-500">Daily portfolio value after monthly investment events.</p>
+        <h2 className="text-sm font-semibold text-slate-100">Portfolio Value Over Time</h2>
+        <p className="text-xs text-slate-500">Strategy value lines with invested and reserve reference lines.</p>
       </div>
       <div className="h-[340px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={result.chart} margin={{ top: 8, right: 12, bottom: 8, left: 0 }}>
+          <LineChart data={chartData} margin={{ top: 8, right: 12, bottom: 8, left: 0 }}>
             <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" />
             <XAxis
               dataKey="date"
@@ -80,11 +83,58 @@ export function PortfolioChart({ result }: PortfolioChartProps) {
               strokeDasharray="5 5"
               dot={false}
             />
+            <Line
+              type="monotone"
+              dataKey="regularSipInvested"
+              name="regularSipInvested"
+              stroke="#334155"
+              strokeWidth={1}
+              strokeDasharray="4 4"
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="buyTheDipInvested"
+              name="buyTheDipInvested"
+              stroke="#1e3a5f"
+              strokeWidth={1}
+              strokeDasharray="4 4"
+              dot={false}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
     </section>
   );
+}
+
+function withInvestedReferenceLines(result: BacktestResponse) {
+  const regularEvents = [...(result.strategies.find((strategy) => strategy.id === "REGULAR_SIP")?.events ?? [])].sort(
+    (a, b) => a.date.localeCompare(b.date),
+  );
+  const dipEvents = [...(result.strategies.find((strategy) => strategy.id === "BUY_THE_DIP")?.events ?? [])].sort(
+    (a, b) => a.date.localeCompare(b.date),
+  );
+  let regularIndex = 0;
+  let dipIndex = 0;
+  let regularInvested = 0;
+  let dipInvested = 0;
+
+  return result.chart.map((point) => {
+    while (regularIndex < regularEvents.length && regularEvents[regularIndex].date <= point.date) {
+      regularInvested += regularEvents[regularIndex].amountInvested;
+      regularIndex += 1;
+    }
+    while (dipIndex < dipEvents.length && dipEvents[dipIndex].date <= point.date) {
+      dipInvested += dipEvents[dipIndex].amountInvested;
+      dipIndex += 1;
+    }
+    return {
+      ...point,
+      regularSipInvested: regularInvested,
+      buyTheDipInvested: dipInvested,
+    };
+  });
 }
 
 const strategyColors: Record<string, string> = {

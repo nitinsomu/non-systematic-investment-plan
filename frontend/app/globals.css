@@ -44,82 +44,60 @@ input {
   font-feature-settings: "tnum";
 }
 
-.bg-slate-100,
-.bg-slate-50 {
-  background-color: #080c14 !important;
+.nsip-card {
+  border: 1px solid #1e293b;
+  border-radius: 0.5rem;
+  background: #0b1120;
 }
 
-.bg-white {
-  background-color: #0b1120 !important;
+.nsip-panel {
+  border: 1px solid #1e293b;
+  border-radius: 0.375rem;
+  background: #080c14;
 }
 
-.bg-slate-950,
-.bg-emerald-700 {
-  background-color: #2563eb !important;
+.nsip-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
 }
 
-.hover\:bg-slate-800:hover,
-.hover\:bg-emerald-800:hover {
-  background-color: #3b82f6 !important;
+.nsip-input {
+  height: 2.25rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid #334155;
+  background: #080c14;
+  padding: 0 0.625rem;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  outline: none;
 }
 
-.bg-red-50 {
-  background-color: rgb(69 10 10 / 0.28) !important;
+.nsip-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
 }
 
-.border-slate-100,
-.border-slate-200,
-.border-slate-300,
-.border-red-200 {
-  border-color: #1e293b !important;
+.nsip-input:disabled {
+  background: #0f172a;
+  color: #64748b;
 }
 
-.text-slate-950,
-.text-slate-800,
-.text-slate-700 {
-  color: #e2e8f0 !important;
+.nsip-button {
+  border-radius: 0.375rem;
+  background: #2563eb;
+  color: white;
+  transition: background 160ms ease, opacity 160ms ease;
 }
 
-.text-slate-600,
-.text-slate-500,
-.text-slate-400 {
-  color: #64748b !important;
+.nsip-button:hover {
+  background: #3b82f6;
 }
 
-.text-emerald-700 {
-  color: #34d399 !important;
-}
-
-.text-red-700,
-.text-red-800 {
-  color: #f87171 !important;
-}
-
-.text-amber-700 {
-  color: #f59e0b !important;
-}
-
-.hover\:bg-slate-50:hover,
-.hover\:bg-red-50:hover {
-  background-color: rgb(30 41 59 / 0.38) !important;
-}
-
-input,
-select,
-textarea {
-  background-color: #080c14 !important;
-  color: #e2e8f0 !important;
-  border-color: #334155 !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #475569 !important;
-}
-
-input:disabled,
-select:disabled,
-textarea:disabled {
-  background-color: #0f172a !important;
-  color: #64748b !important;
+.nsip-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
