@@ -7,14 +7,14 @@ type InvestmentEventsTableProps = {
 
 export function InvestmentEventsTable({ result }: InvestmentEventsTableProps) {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 p-4">
-        <h2 className="text-sm font-semibold text-slate-950">Investment Events</h2>
+    <section className="nsip-card">
+      <div className="border-b border-slate-800 p-4">
+        <h2 className="text-sm font-semibold text-slate-100">Investment Events</h2>
         <p className="text-xs text-slate-500">Monthly actions produced by each strategy.</p>
       </div>
       <div className="max-h-[420px] overflow-auto">
         <table className="w-full min-w-[760px] border-collapse text-left text-sm">
-          <thead className="sticky top-0 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+          <thead className="sticky top-0 bg-[#080c14] text-xs uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-4 py-3 font-semibold">Date</th>
               <th className="px-4 py-3 font-semibold">Strategy</th>
@@ -24,9 +24,9 @@ export function InvestmentEventsTable({ result }: InvestmentEventsTableProps) {
               <th className="px-4 py-3 font-semibold">Reason</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-800">
             {result.events.map((event, index) => (
-              <tr key={`${event.date}-${event.strategy}-${index}`} className="text-slate-700">
+              <tr key={`${event.date}-${event.strategy}-${index}`} className="text-slate-300">
                 <td className="px-4 py-3 whitespace-nowrap">{formatDate(event.date)}</td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <span className={strategyClassName(event.strategy)}>
@@ -34,7 +34,7 @@ export function InvestmentEventsTable({ result }: InvestmentEventsTableProps) {
                   </span>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">{formatMoney(event.price, result.asset.currency)}</td>
-                <td className="px-4 py-3 whitespace-nowrap font-medium text-slate-950">
+                <td className="px-4 py-3 whitespace-nowrap font-medium text-slate-100">
                   {formatMoney(event.amountInvested, result.asset.currency)}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">{formatNumber(event.unitsBought, 4)}</td>
@@ -74,16 +74,16 @@ function strategyLabel(strategy: BacktestResponse["events"][number]["strategy"])
 
 function strategyClassName(strategy: BacktestResponse["events"][number]["strategy"]): string {
   if (strategy === "BUY_THE_DIP") {
-    return "text-emerald-700";
+    return "text-emerald-400";
   }
   if (strategy === "RESERVE_BUY_THE_DIP") {
-    return "text-violet-700";
+    return "text-violet-400";
   }
   if (strategy === "RSI_DIP") {
-    return "text-blue-700";
+    return "text-blue-400";
   }
   if (strategy === "MOMENTUM_BOOST") {
-    return "text-rose-700";
+    return "text-rose-400";
   }
-  return "text-slate-700";
+  return "text-slate-300";
 }

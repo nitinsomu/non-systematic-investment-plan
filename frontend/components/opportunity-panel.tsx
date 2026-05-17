@@ -10,46 +10,46 @@ type OpportunityPanelProps = {
 
 export function OpportunityPanel({ result, onAddToWatchlist, isSaving, message }: OpportunityPanelProps) {
   const opportunity = result.opportunity;
-  const scoreTone = opportunity.score >= 70 ? "text-emerald-700" : opportunity.score >= 45 ? "text-amber-700" : "text-red-700";
+  const scoreTone = opportunity.score >= 70 ? "text-emerald-400" : opportunity.score >= 45 ? "text-amber-400" : "text-red-400";
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+    <section className="nsip-card p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="text-sm font-semibold text-slate-950">Opportunity Score</h2>
+          <h2 className="text-sm font-semibold text-slate-100">Opportunity Score</h2>
           <p className="mt-1 text-xs text-slate-500">{opportunity.summary}</p>
         </div>
         <button
           type="button"
           onClick={onAddToWatchlist}
           disabled={isSaving}
-          className="h-8 rounded-md bg-slate-950 px-3 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
+          className="nsip-button h-8 px-3 text-xs font-semibold"
         >
           {isSaving ? "Saving" : "Add to Watchlist"}
         </button>
       </div>
       <div className="mt-3 grid gap-3 lg:grid-cols-[180px_1fr_1fr]">
-        <div className="rounded-md border border-slate-200 p-3">
+        <div className="nsip-panel p-3">
           <div className={`text-3xl font-semibold ${scoreTone}`}>{opportunity.score}</div>
-          <div className="text-xs font-medium text-slate-600">{opportunity.label}</div>
+          <div className="text-xs font-medium text-slate-500">{opportunity.label}</div>
           <div className="mt-2 text-xs text-slate-500">As of {formatDate(opportunity.asOfDate)}</div>
         </div>
-        <div className="rounded-md border border-slate-200 p-3 text-sm">
+        <div className="nsip-panel p-3 text-sm">
           <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Why Now</div>
-          <ul className="space-y-1 text-slate-700">
+          <ul className="space-y-1 text-slate-300">
             {opportunity.reasons.map((reason) => (
               <li key={reason}>• {reason}</li>
             ))}
           </ul>
         </div>
-        <div className="rounded-md border border-slate-200 p-3 text-sm">
+        <div className="nsip-panel p-3 text-sm">
           <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Action</div>
-          <div className="font-semibold text-slate-950">{actionLabel(opportunity.suggestedAction)}</div>
-          <div className="mt-1 text-slate-600">{formatMoney(opportunity.suggestedAmount, result.asset.currency)}</div>
+          <div className="font-semibold text-slate-100">{actionLabel(opportunity.suggestedAction)}</div>
+          <div className="mt-1 text-slate-400">{formatMoney(opportunity.suggestedAmount, result.asset.currency)}</div>
           <div className="mt-2 text-xs text-slate-500">{opportunity.risks.join(" · ")}</div>
         </div>
       </div>
-      {message ? <p className="mt-2 text-xs font-medium text-emerald-700">{message}</p> : null}
+      {message ? <p className="mt-2 text-xs font-medium text-emerald-400">{message}</p> : null}
     </section>
   );
 }

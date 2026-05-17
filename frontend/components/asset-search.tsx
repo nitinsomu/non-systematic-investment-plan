@@ -66,19 +66,21 @@ export function AssetSearch({
   };
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+    <section className="nsip-card p-5">
       <div className="mb-2 flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-sm font-semibold text-slate-950">Asset</h2>
+          <p className="nsip-label">Asset</p>
         </div>
       </div>
-      <div className="mb-2 grid grid-cols-5 rounded-md bg-slate-100 p-1 text-[11px] font-medium">
+      <div className="mb-3 grid grid-cols-5 rounded-md bg-[#080c14] p-1 text-[11px] font-medium">
         {assetTabs.map((tab) => (
           <button
             key={tab.type}
             type="button"
             onClick={() => onAssetTypeChange(tab.type)}
-            className={`h-7 rounded ${assetType === tab.type ? "bg-white text-slate-950 shadow-sm" : "text-slate-600"}`}
+            className={`h-7 rounded transition ${
+              assetType === tab.type ? "bg-[#1e293b] text-slate-100" : "text-slate-500 hover:bg-slate-800/40"
+            }`}
           >
             {tab.label}
           </button>
@@ -88,11 +90,11 @@ export function AssetSearch({
         <div className="relative min-w-0 flex-1">
           <input
             {...register("ticker")}
-            className="h-9 w-full min-w-0 rounded-md border border-slate-300 px-3 pr-8 text-sm text-slate-950 outline-none transition focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+            className="nsip-input min-w-0 pr-8 font-mono"
             placeholder={inputPlaceholder[assetType]}
             list={assetType === "STOCK" ? "stock-options" : undefined}
           />
-          <ChevronsUpDown className="pointer-events-none absolute right-2 top-2.5 h-4 w-4 text-slate-400" />
+          <ChevronsUpDown className="pointer-events-none absolute right-2 top-2.5 h-4 w-4 text-slate-500" />
           {assetType === "STOCK" ? (
             <datalist id="stock-options">
               {stockResults.map((result) => (
@@ -106,16 +108,16 @@ export function AssetSearch({
         <button
           type="button"
           onClick={onLookup}
-          className="inline-flex h-9 items-center gap-2 rounded-md bg-slate-950 px-3 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+          className="nsip-button inline-flex h-9 items-center gap-2 px-3 text-sm font-medium"
           disabled={isLoadingAsset}
         >
           <Search className="h-4 w-4" />
           {isLoadingAsset ? "Searching" : assetType === "MUTUAL_FUND" ? "Search" : "Check"}
         </button>
       </div>
-      {error ? <p className="mt-2 text-xs font-medium text-red-700">{error}</p> : null}
+      {error ? <p className="mt-2 font-mono text-xs font-medium text-red-400">{error}</p> : null}
       {dropdownResults.length > 0 ? (
-        <div className="mt-2 max-h-56 overflow-auto rounded-md border border-slate-200">
+        <div className="mt-2 max-h-56 overflow-auto rounded-md border border-slate-800">
           {dropdownResults.map((result) => {
             const isSelected = asset?.assetId === result.assetId && asset?.assetType === result.assetType;
             return (
@@ -123,11 +125,11 @@ export function AssetSearch({
               key={result.assetId}
               type="button"
               onClick={() => onSelectResult(result)}
-              className="flex w-full items-start gap-2 border-b border-slate-100 px-2.5 py-2 text-left text-xs transition last:border-b-0 hover:bg-slate-50"
+              className="flex w-full items-start gap-2 border-b border-slate-800/70 px-2.5 py-2 text-left text-xs transition last:border-b-0 hover:bg-slate-800/30"
             >
-              <Check className={`mt-0.5 h-3.5 w-3.5 flex-none ${isSelected ? "text-emerald-700" : "text-transparent"}`} />
+              <Check className={`mt-0.5 h-3.5 w-3.5 flex-none ${isSelected ? "text-emerald-400" : "text-transparent"}`} />
               <div className="min-w-0">
-                <div className="truncate font-medium text-slate-950">{result.name}</div>
+                <div className="truncate font-medium text-slate-100">{result.name}</div>
                 <div className="mt-0.5 flex flex-wrap gap-x-2 gap-y-0.5 text-slate-500">
                   <span>{assetType === "MUTUAL_FUND" ? `Code ${result.assetId}` : result.ticker}</span>
                   <span>{result.currency}</span>
@@ -140,8 +142,8 @@ export function AssetSearch({
         </div>
       ) : null}
       {asset ? (
-        <div className="mt-2 rounded-md bg-slate-50 p-2.5 text-xs text-slate-600">
-          <div className="truncate font-medium text-slate-950">{asset.name}</div>
+        <div className="mt-3 rounded-md border border-slate-800 bg-[#080c14] p-3 text-xs text-slate-500">
+          <div className="truncate font-medium text-slate-100">{asset.name}</div>
           <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
             <span>{asset.assetType === "MUTUAL_FUND" ? `Scheme ${asset.assetId}` : asset.ticker}</span>
             <span>{asset.currency}</span>

@@ -3,6 +3,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.api.routes_legacy import router as legacy_router
 from app.api.v1.routes_assets import router as assets_router
 from app.api.v1.routes_backtests import router as backtests_router
 from app.api.v1.routes_portfolio import router as portfolio_router
@@ -37,3 +38,4 @@ app.include_router(assets_router, prefix="/api/v1")
 app.include_router(backtests_router, prefix="/api/v1")
 app.include_router(watchlist_router, prefix="/api/v1")
 app.include_router(portfolio_router, prefix="/api/v1")
+app.include_router(legacy_router)

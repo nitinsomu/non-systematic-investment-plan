@@ -24,6 +24,15 @@ export const backtestFormSchema = z
     message: "Start date must be before end date",
     path: ["endDate"],
   })
+  .refine((value) => {
+    const start = new Date(value.startDate);
+    const end = new Date(value.endDate);
+    const months = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
+    return months >= 12;
+  }, {
+    message: "Range must be at least 1 year; long moving averages need enough history",
+    path: ["endDate"],
+  })
   .refine((value) => value.assetType === "STOCK" || Boolean(value.assetId), {
     message: "Select a mutual fund from the search results",
     path: ["ticker"],
