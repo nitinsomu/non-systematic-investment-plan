@@ -74,6 +74,7 @@ input {
   color: #e2e8f0;
   font-size: 0.875rem;
   outline: none;
+  color-scheme: dark;
 }
 
 .nsip-input:focus {

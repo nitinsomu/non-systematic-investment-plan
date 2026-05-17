@@ -7,7 +7,7 @@ type StrategyRankingProps = {
 
 export function StrategyRanking({ result }: StrategyRankingProps) {
   const rankedStrategies = [...result.strategies].sort(
-    (left, right) => right.metrics.currentValue - left.metrics.currentValue,
+    (left, right) => (right.metrics.xirr ?? 0) - (left.metrics.xirr ?? 0),
   );
   const currency = result.asset.currency;
 
@@ -15,7 +15,7 @@ export function StrategyRanking({ result }: StrategyRankingProps) {
     <section className="nsip-card">
       <div className="border-b border-slate-800 p-4">
         <h2 className="text-sm font-semibold text-slate-100">Strategy Ranking</h2>
-        <p className="text-xs text-slate-500">Sorted by current value after the selected backtest period.</p>
+        <p className="text-xs text-slate-500">Sorted by XIRR — accounts for total capital deployed and timing of investments.</p>
       </div>
       <div className="overflow-auto">
         <table className="w-full min-w-[760px] border-collapse text-left text-sm">

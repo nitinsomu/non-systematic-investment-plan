@@ -6,19 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 
 import { AssetSearch } from "@/components/asset-search";
-import { AlertDashboard } from "@/components/alert-dashboard";
 import { BacktestVerdict } from "@/components/backtest-verdict";
-import { InvestmentEventsTable } from "@/components/investment-events-table";
 import { OpportunityPanel } from "@/components/opportunity-panel";
-import { PortfolioRecommendations } from "@/components/portfolio-recommendations";
 import { PortfolioChart } from "@/components/portfolio-chart";
 import { ResultsSummary } from "@/components/results-summary";
 import { StrategyForm } from "@/components/strategy-form";
 import { StrategyRanking } from "@/components/strategy-ranking";
-import { WatchlistPanel } from "@/components/watchlist-panel";
-import { createWatchlistItem, deleteWatchlistItem, evaluateWatchlist, getAsset, getPortfolioRecommendations, getTypedAsset, listWatchlist, runBacktest, searchAssets } from "@/lib/api";
+import { createWatchlistItem, getAsset, getTypedAsset, listWatchlist, runBacktest, searchAssets } from "@/lib/api";
 import { backtestFormSchema, type BacktestFormValues } from "@/lib/schemas";
-import type { AssetInfo, AssetSearchResult, AssetType, BacktestRequest, BacktestResponse, PortfolioRecommendationResponse, WatchlistEvaluationItem, WatchlistEvaluationResponse, WatchlistItem } from "@/lib/types";
+import type { AssetInfo, AssetSearchResult, AssetType, BacktestRequest, BacktestResponse, WatchlistItem } from "@/lib/types";
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -49,15 +45,10 @@ export function BacktestDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [assetError, setAssetError] = useState<string | null>(null);
   const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
-  const [watchlistEvaluations, setWatchlistEvaluations] = useState<WatchlistEvaluationItem[]>([]);
-  const [watchlistEvaluationResponse, setWatchlistEvaluationResponse] = useState<WatchlistEvaluationResponse | null>(null);
-  const [portfolioRecommendations, setPortfolioRecommendations] = useState<PortfolioRecommendationResponse | null>(null);
   const [watchlistMessage, setWatchlistMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingAsset, setIsLoadingAsset] = useState(false);
   const [isSavingWatchlist, setIsSavingWatchlist] = useState(false);
-  const [isRefreshingWatchlist, setIsRefreshingWatchlist] = useState(false);
-  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(false);
 
   const {
     register,
@@ -227,37 +218,6 @@ export function BacktestDashboard() {
     }
   }
 
-  async function handleRefreshWatchlist() {
-    setIsRefreshingWatchlist(true);
-    try {
-      await refreshWatchlistItems();
-      const response = await evaluateWatchlist();
-      setWatchlistEvaluations(response.items);
-      setWatchlistEvaluationResponse(response);
-    } finally {
-      setIsRefreshingWatchlist(false);
-    }
-  }
-
-  async function handlePortfolioRecommendations(monthlyBudget: number) {
-    setIsLoadingRecommendations(true);
-    try {
-      const response = await getPortfolioRecommendations({
-        monthlyBudget,
-        maxPerAssetPercent: 35,
-        minimumScore: 55,
-      });
-      setPortfolioRecommendations(response);
-    } finally {
-      setIsLoadingRecommendations(false);
-    }
-  }
-
-  async function handleDeleteWatchlist(id: string) {
-    await deleteWatchlistItem(id);
-    setWatchlistItems((items) => items.filter((item) => item.id !== id));
-    setWatchlistEvaluations((items) => items.filter((item) => item.watchlistItem.id !== id));
-  }
 
   return (
     <div className="min-h-screen bg-[#080c14] text-slate-100">
@@ -340,20 +300,6 @@ export function BacktestDashboard() {
                   message={watchlistMessage}
                 />
                 <StrategyRanking result={result} />
-                <AlertDashboard evaluation={watchlistEvaluationResponse} />
-                <WatchlistPanel
-                  items={watchlistItems}
-                  evaluations={watchlistEvaluations}
-                  isLoading={isRefreshingWatchlist}
-                  onRefresh={handleRefreshWatchlist}
-                  onDelete={handleDeleteWatchlist}
-                />
-                <PortfolioRecommendations
-                  result={portfolioRecommendations}
-                  isLoading={isLoadingRecommendations}
-                  onRun={handlePortfolioRecommendations}
-                />
-                <InvestmentEventsTable result={result} />
               </div>
             </>
           ) : null}
